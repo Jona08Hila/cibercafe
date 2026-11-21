@@ -1,0 +1,749 @@
+/* Layout 100% Flexbox (sin CSS Grid ni media queries).
+   Progresion desde movil (PWA) hacia pantallas mas amplias mediante flex-wrap y flex-basis. */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--bg-canvas);
+}
+
+/* Notificacion flotante externa para descarga/instalacion PWA */
+.pwa-toast {
+  position: fixed;
+  top: 56px;
+  right: 12px;
+  z-index: 60;
+  max-width: 340px;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--accent-primary);
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  padding: 8px 10px;
+}
+
+.pwa-toast-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pwa-toast-title {
+  flex: 1 1 100%;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Cabecera superior */
+.top-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.status-pill {
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  background-color: var(--bg-chip);
+  color: var(--accent-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.status-pill[data-state="offline"] {
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+}
+
+/* Boton hamburguesa minimalista */
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
+}
+
+.hamburger-sm {
+  width: 30px;
+  height: 30px;
+}
+
+.hamburger-line {
+  width: 15px;
+  height: 2px;
+  background-color: var(--text-primary);
+  border-radius: 2px;
+}
+
+/* Menu desplegable global */
+.section-drawer {
+  flex: 0 0 auto;
+  background-color: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 8px 12px;
+}
+
+.drawer-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.drawer-item {
+  flex: 1 1 120px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.drawer-item.is-active {
+  background-color: var(--accent-primary);
+  color: var(--accent-primary-ink);
+  border-color: var(--accent-primary);
+}
+
+/* Botones reutilizables */
+.btn-action {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-primary);
+  background-color: var(--accent-primary);
+  color: var(--accent-primary-ink);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.btn-secondary {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.btn-ghost {
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+}
+
+/* Contenedor principal sin scroll */
+.viewport-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px;
+}
+
+.view-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Encabezado de cada seccion con menu hamburguesa propio */
+.section-header-row {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.section-menu-wrap {
+  position: relative;
+}
+
+.section-mini-menu {
+  position: absolute;
+  right: 0;
+  top: 36px;
+  z-index: 30;
+  min-width: 175px;
+  padding: 6px;
+  border-radius: 10px;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--accent-primary);
+  box-shadow: var(--shadow-soft);
+}
+
+.mini-menu-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.mini-menu-btn:hover {
+  background-color: var(--bg-chip);
+  color: var(--accent-primary);
+}
+
+/* Vista 1: Inicio */
+.inicio-flex-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.carousel-card {
+  flex: 1 1 52%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.carousel-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 6px 10px;
+  background: linear-gradient(transparent, rgba(7, 11, 16, 0.88));
+}
+
+.carousel-caption {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #ecf6ff;
+}
+
+.carousel-controls {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  background-color: var(--bg-elevated);
+}
+
+.counter-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.cards-row-flex {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-card {
+  flex: 1 1 220px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.card-title {
+  margin: 0 0 3px 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.card-copy {
+  margin: 0;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+}
+
+.social-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.social-link-chip {
+  flex: 1 1 140px;
+  text-align: center;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.social-link-chip:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Vista 2: Estaciones y seleccion multiple */
+.selection-summary-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.summary-metric {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cards-flex-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+}
+
+.selectable-card {
+  flex: 1 1 155px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  user-select: none;
+}
+
+.selectable-card.is-selected {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-elevated);
+  box-shadow: inset 0 0 0 1px var(--accent-primary);
+}
+
+.card-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.card-tag {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--accent-secondary);
+}
+
+.card-price {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.pagination-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Vista 3: Juegos y musica */
+.media-split-flex {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.media-column {
+  flex: 1 1 280px;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.filter-chip {
+  flex: 0 1 auto;
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.filter-chip.is-selected {
+  background-color: var(--accent-primary);
+  color: var(--accent-primary-ink);
+  border-color: var(--accent-primary);
+}
+
+.now-playing-banner {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--accent-primary);
+  font-size: 0.72rem;
+}
+
+.now-playing-label {
+  color: var(--text-secondary);
+}
+
+.now-playing-title {
+  flex: 1 1 140px;
+  color: var(--accent-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.now-playing-meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent-secondary);
+}
+
+.tracks-flex-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.track-row {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+
+.track-row.is-playing {
+  border-color: var(--accent-secondary);
+  background-color: var(--bg-elevated);
+}
+
+.track-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.track-name {
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-genre {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+.track-duration {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+/* Vista 4: Formulario y validacion en tiempo real */
+.form-layout-flex {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.reserve-form {
+  flex: 2 1 320px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.form-row-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.field-group {
+  flex: 1 1 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.field-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.field-input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 7px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
+  font-size: 0.76rem;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.field-input.is-invalid {
+  border-color: var(--danger-border);
+  background-color: var(--danger-bg);
+  color: var(--danger-text);
+}
+
+.field-input.is-valid {
+  border-color: var(--accent-secondary);
+}
+
+.field-hint {
+  font-size: 0.64rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field-error {
+  min-height: 13px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--danger-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-footer-flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.selected-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-primary);
+}
+
+.receipt-card {
+  flex: 1 1 210px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.receipt-card.is-confirmed {
+  border-color: var(--accent-secondary);
+}
+
+.receipt-items-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.receipt-pill {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background-color: var(--bg-chip);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+}
+
+/* Barra inferior de navegacion PWA */
+.bottom-nav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 6px 8px;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.nav-tab {
+  flex: 1 1 0;
+  padding: 8px 4px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-tab.is-active {
+  background-color: var(--bg-elevated);
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
