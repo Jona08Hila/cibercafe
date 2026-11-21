@@ -1,0 +1,77 @@
+/* Psicologia del color:
+   - Modo Oscuro: negro profundo y grafito para reducir fatiga ocular en entornos gamer,
+     combinado con cian electrico de alto contraste para acciones activas y esmeralda para validacion.
+   - Modo Claro: superficie neutra clara con azul cobalto/cian oscuro y tinta carbón para lectura diurna.
+   - Regla critica cero-scroll: html, body y app-shell bloqueados a 100dvh sin desbordamiento. */
+
+:root {
+  --bg-canvas: #070b10;
+  --bg-surface: #0e1621;
+  --bg-elevated: #142030;
+  --bg-chip: #19283b;
+  --text-primary: #ecf6ff;
+  --text-secondary: #98b2c9;
+  --accent-primary: #00d8ff;
+  --accent-primary-ink: #041017;
+  --accent-secondary: #19e6a8;
+  --border-subtle: #23364d;
+  --danger-bg: #3b0d14;
+  --danger-border: #ff4766;
+  --danger-text: #ff99aa;
+  --success-text: #38f2b8;
+  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --font-sans: "Segoe UI", Roboto, Ubuntu, Cantarell, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+:root[data-theme="light"] {
+  --bg-canvas: #eef4f8;
+  --bg-surface: #ffffff;
+  --bg-elevated: #e4eef5;
+  --bg-chip: #dce9f2;
+  --text-primary: #0d1b2a;
+  --text-secondary: #415a77;
+  --accent-primary: #007791;
+  --accent-primary-ink: #ffffff;
+  --accent-secondary: #0b875b;
+  --border-subtle: #c2d4e3;
+  --danger-bg: #fff0f2;
+  --danger-border: #d92d4b;
+  --danger-text: #b41934;
+  --success-text: #0b875b;
+  --shadow-soft: 0 6px 18px rgba(13, 27, 42, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.35;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}

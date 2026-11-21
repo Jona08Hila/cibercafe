@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070b10">
+  <meta name="description" content="PWA de cibercafe universitario UPDS con seleccion de estaciones, filtros de juegos y musica, reservas en tiempo real y arquitectura offline-first.">
+  <title>KAME NET UPDS | Cibercafe Universitario y Arena Gamer</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="app-shell" class="app-shell" data-hydrated="false">
+    <!-- Notificacion flotante externa para instalacion PWA (fuera del layout principal) -->
+    <aside id="pwa-install-toast" class="pwa-toast" role="status" aria-live="polite" hidden>
+      <div class="pwa-toast-content">
+        <span class="pwa-toast-title">Instalar aplicacion KAME NET UPDS</span>
+        <button type="button" id="btn-install-pwa" class="btn-action" data-control="install-pwa" data-hydrated="false">Instalar</button>
+        <button type="button" id="btn-dismiss-pwa" class="btn-ghost" data-control="dismiss-pwa" data-hydrated="false">Cerrar</button>
+      </div>
+    </aside>
+
+    <!-- Cabecera superior con menu hamburguesa global y selector de tema -->
+    <header class="top-bar">
+      <div class="brand-group">
+        <button type="button" id="btn-global-menu" class="hamburger-btn" aria-label="Abrir menu principal" aria-expanded="false" data-control="global-menu" data-hydrated="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        <div class="brand-titles">
+          <h1 class="brand-name">KAME NET UPDS</h1>
+          <span class="brand-subtitle">Sistemas - Web 2 - Arena</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <span id="network-indicator" class="status-pill" data-state="online">ONLINE</span>
+        <button type="button" id="btn-theme-toggle" class="btn-secondary" data-control="theme-toggle" data-hydrated="false">Modo Claro</button>
+      </div>
+    </header>
+
+    <!-- Menu desplegable global animado con jQuery -->
+    <nav id="global-drawer" class="section-drawer" aria-label="Navegacion de secciones" style="display: none;">
+      <div class="drawer-list" data-event-zone="global-nav">
+        <button type="button" class="drawer-item is-active" data-nav-target="inicio" data-hydrated="false">Inicio y Carrusel</button>
+        <button type="button" class="drawer-item" data-nav-target="estaciones" data-hydrated="false">Estaciones y Seleccion</button>
+        <button type="button" class="drawer-item" data-nav-target="media" data-hydrated="false">Juegos y Musica</button>
+        <button type="button" class="drawer-item" data-nav-target="reservas" data-hydrated="false">Reserva y Contacto</button>
+      </div>
+    </nav>
+
+    <!-- Area central sin scroll controlada por Flexbox -->
+    <main id="viewport-main" class="viewport-main" data-event-zone="main-viewport">
+      <!-- SECCION 1: INICIO, CARRUSEL, DEPORTE / UPDS Y REDES LIMPIAS -->
+      <section id="view-inicio" class="view-panel is-visible" data-view="inicio">
+        <div class="section-header-row">
+          <h2 class="section-title">Campus Tech y Arena</h2>
+          <div class="section-menu-wrap">
+            <button type="button" class="hamburger-btn hamburger-sm" aria-label="Menu de Inicio" data-control="section-menu" data-section-id="inicio" data-hydrated="false">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+            <div class="section-mini-menu" data-menu-for="inicio" style="display: none;">
+              <button type="button" class="mini-menu-btn" data-quick-action="go-estaciones" data-hydrated="false">Ir a Estaciones</button>
+              <button type="button" class="mini-menu-btn" data-quick-action="go-reservas" data-hydrated="false">Reservar Puesto</button>
+              <button type="button" class="mini-menu-btn" data-quick-action="cycle-slide" data-hydrated="false">Siguiente Paisaje</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="inicio-flex-body">
+          <!-- Carrusel de paisajes / entornos coherentes con Lazy Loading -->
+          <div class="carousel-card">
+            <div class="carousel-stage">
+              <img id="carousel-img" class="carousel-image" loading="lazy" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80" alt="Entorno de competicion gamer y estaciones de alto rendimiento">
+              <div class="carousel-overlay">
+                <span id="carousel-caption" class="carousel-caption">Arena Gamer UPDS - Alta tasa de refresco y fibra optica</span>
+              </div>
+            </div>
+            <div class="carousel-controls" data-event-zone="carousel-controls">
+              <button type="button" id="btn-prev-slide" class="btn-secondary" data-control="carousel-prev" data-hydrated="false">Anterior</button>
+              <span id="carousel-counter" class="counter-label">1 / 3</span>
+              <button type="button" id="btn-next-slide" class="btn-secondary" data-control="carousel-next" data-hydrated="false">Siguiente</button>
+            </div>
+          </div>
+
+          <!-- Tarjetas informativas: UPDS / Desarrollo Web y Futbol -->
+          <div class="cards-row-flex">
+            <article class="info-card">
+              <h3 class="card-title">Hub Ingenieria UPDS</h3>
+              <p class="card-copy">Entorno de practica para Diseño Web 2, compilacion local, pruebas PWA y sesiones de estudio tecnico.</p>
+            </article>
+            <article class="info-card">
+              <h3 class="card-title">Futbol y Retos</h3>
+              <p class="card-copy">Transmision de partidos de futbol universitario y torneos amistosos entre turnos de codigo y partidas.</p>
+            </article>
+          </div>
+
+          <!-- Enlaces sociales limpios: unicamente la ruta/direccion de la aplicacion -->
+          <div class="social-bar" aria-label="Redes sociales" data-event-zone="social-links">
+            <a href="https://github.com/kamenet-upds" target="_blank" rel="noopener noreferrer" class="social-link-chip">github.com/kamenet-upds</a>
+            <a href="https://discord.gg/kamenet-upds" target="_blank" rel="noopener noreferrer" class="social-link-chip">discord.gg/kamenet-upds</a>
+            <a href="https://instagram.com/kamenet.upds" target="_blank" rel="noopener noreferrer" class="social-link-chip">instagram.com/kamenet.upds</a>
+            <a href="https://youtube.com/@kamenetupds" target="_blank" rel="noopener noreferrer" class="social-link-chip">youtube.com/@kamenetupds</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCION 2: ESTACIONES Y SELECCION MULTIPLE FUNCIONAL -->
+      <section id="view-estaciones" class="view-panel" data-view="estaciones" hidden>
+        <div class="section-header-row">
+          <h2 class="section-title">Estaciones y Paquetes</h2>
+          <div class="section-menu-wrap">
+            <button type="button" class="hamburger-btn hamburger-sm" aria-label="Menu de Estaciones" data-control="section-menu" data-section-id="estaciones" data-hydrated="false">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+            <div class="section-mini-menu" data-menu-for="estaciones" style="display: none;">
+              <button type="button" class="mini-menu-btn" data-quick-action="clear-selection" data-hydrated="false">Limpiar Seleccion</button>
+              <button type="button" class="mini-menu-btn" data-quick-action="select-recommended" data-hydrated="false">Seleccionar Combo UPDS</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="selection-summary-bar">
+          <span id="selection-count" class="summary-metric">Seleccionados: 0</span>
+          <span id="selection-total" class="summary-metric">Total estimado: 0 Bs</span>
+          <button type="button" id="btn-apply-selection" class="btn-action" data-control="apply-selection" data-hydrated="false">Usar en Reserva</button>
+        </div>
+
+        <!-- Contenedor con delegacion de eventos para seleccion multiple -->
+        <div id="stations-list" class="cards-flex-grid" data-event-zone="multi-select-stations"></div>
+
+        <div class="pagination-bar" data-event-zone="stations-pagination">
+          <button type="button" id="btn-stations-prev" class="btn-secondary" data-control="stations-prev" data-hydrated="false">Pagina Ant.</button>
+          <span id="stations-page-info" class="counter-label">Pag. 1 / 1</span>
+          <button type="button" id="btn-stations-next" class="btn-secondary" data-control="stations-next" data-hydrated="false">Pagina Sig.</button>
+        </div>
+      </section>
+
+      <!-- SECCION 3: FILTRO INTERACTIVO DE JUEGOS Y LISTA DE MUSICA -->
+      <section id="view-media" class="view-panel" data-view="media" hidden>
+        <div class="section-header-row">
+          <h2 class="section-title">Juegos y Musica</h2>
+          <div class="section-menu-wrap">
+            <button type="button" class="hamburger-btn hamburger-sm" aria-label="Menu de Juegos y Musica" data-control="section-menu" data-section-id="media" data-hydrated="false">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+            <div class="section-mini-menu" data-menu-for="media" style="display: none;">
+              <button type="button" class="mini-menu-btn" data-quick-action="reset-media-filters" data-hydrated="false">Mostrar Todo</button>
+              <button type="button" class="mini-menu-btn" data-quick-action="toggle-audio-panel" data-hydrated="false">Alternar Consola Audio</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="media-split-flex">
+          <!-- Bloque 1: Filtro de videojuegos requeridos -->
+          <div class="media-column">
+            <div class="filter-bar" data-event-zone="game-filters">
+              <button type="button" class="filter-chip is-selected" data-game-filter="ALL" data-hydrated="false">Todos</button>
+              <button type="button" class="filter-chip" data-game-filter="Budokai Tenkaichi 3" data-hydrated="false">Budokai Tenkaichi 3</button>
+              <button type="button" class="filter-chip" data-game-filter="Clash Royale" data-hydrated="false">Clash Royale</button>
+              <button type="button" class="filter-chip" data-game-filter="Brawl Stars" data-hydrated="false">Brawl Stars</button>
+              <button type="button" class="filter-chip" data-game-filter="Dragon Ball Legends" data-hydrated="false">DB Legends</button>
+            </div>
+            <div id="games-container" class="cards-flex-grid" data-event-zone="games-list"></div>
+          </div>
+
+          <!-- Bloque 2: Filtro y lista funcional de canciones (Anime / Electronica) -->
+          <div class="media-column">
+            <div class="filter-bar" data-event-zone="music-filters">
+              <button type="button" class="filter-chip is-selected" data-music-filter="ALL" data-hydrated="false">Todas</button>
+              <button type="button" class="filter-chip" data-music-filter="Anime" data-hydrated="false">Anime</button>
+              <button type="button" class="filter-chip" data-music-filter="Electronica" data-hydrated="false">Electronica</button>
+            </div>
+
+            <div id="now-playing-box" class="now-playing-banner" style="display: block;">
+              <span class="now-playing-label">Pista activa:</span>
+              <strong id="active-track-title" class="now-playing-title">Tema de Onigami (Beerus) - Dragon Ball Super</strong>
+              <span id="active-track-meta" class="now-playing-meta">Anime | 03:42</span>
+            </div>
+
+            <div id="tracks-container" class="tracks-flex-list" data-event-zone="tracks-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCION 4: FORMULARIO DE RESERVA / CONTACTO CON VALIDACION EN TIEMPO REAL -->
+      <section id="view-reservas" class="view-panel" data-view="reservas" hidden>
+        <div class="section-header-row">
+          <h2 class="section-title">Reserva y Contacto</h2>
+          <div class="section-menu-wrap">
+            <button type="button" class="hamburger-btn hamburger-sm" aria-label="Menu de Reservas" data-control="section-menu" data-section-id="reservas" data-hydrated="false">
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+            </button>
+            <div class="section-mini-menu" data-menu-for="reservas" style="display: none;">
+              <button type="button" class="mini-menu-btn" data-quick-action="clear-form" data-hydrated="false">Limpiar Formulario</button>
+              <button type="button" class="mini-menu-btn" data-quick-action="go-estaciones" data-hydrated="false">Elegir Estaciones</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-layout-flex">
+          <form id="reservation-form" class="reserve-form" novalidate data-event-zone="reservation-form">
+            <div class="form-row-flex">
+              <div class="field-group">
+                <label for="input-nombre" class="field-label">Estudiante / Titular</label>
+                <input type="text" id="input-nombre" name="nombre" class="field-input" autocomplete="name" placeholder="Ej: Jonathan Escobar" data-rule="nombre" data-hydrated="false">
+                <span class="field-hint" data-example="Ejemplo: Jonathan Escobar (solo letras y espacios, min. 3 caracteres)">Ejemplo: Jonathan Escobar (solo letras y espacios, min. 3 caracteres)</span>
+                <span class="field-error" id="error-nombre" aria-live="polite"></span>
+              </div>
+
+              <div class="field-group">
+                <label for="input-codigo" class="field-label">Codigo UPDS o Celular</label>
+                <input type="text" id="input-codigo" name="codigo" class="field-input" inputmode="numeric" placeholder="Ej: 78854844" data-rule="codigo" data-hydrated="false">
+                <span class="field-hint" data-example="Ejemplo: 78854844 o UPDS-202601 (letras, numeros y guion, 6 a 14 caracteres)">Ejemplo: 78854844 o UPDS-202601 (letras, numeros y guion, 6 a 14 caracteres)</span>
+                <span class="field-error" id="error-codigo" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div class="form-row-flex">
+              <div class="field-group">
+                <label for="input-correo" class="field-label">Correo Electronico</label>
+                <input type="email" id="input-correo" name="correo" class="field-input" autocomplete="email" placeholder="Ej: usuario@upds.edu.bo" data-rule="correo" data-hydrated="false">
+                <span class="field-hint" data-example="Ejemplo: usuario@upds.edu.bo (formato usuario@dominio.ext sin espacios)">Ejemplo: usuario@upds.edu.bo (formato usuario@dominio.ext sin espacios)</span>
+                <span class="field-error" id="error-correo" aria-live="polite"></span>
+              </div>
+
+              <div class="field-group">
+                <label for="input-turno" class="field-label">Horario y Enfoque</label>
+                <input type="text" id="input-turno" name="turno" class="field-input" placeholder="Ej: 15:00 - Budokai Tenkaichi 3" data-rule="turno" data-hydrated="false">
+                <span class="field-hint" data-example="Ejemplo: 15:00 - Budokai Tenkaichi 3 (letras, numeros, espacios, ':' y '-')">Ejemplo: 15:00 - Budokai Tenkaichi 3 (letras, numeros, espacios, ':' y '-')</span>
+                <span class="field-error" id="error-turno" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div class="form-footer-flex">
+              <span id="selected-items-badge" class="selected-badge">Items seleccionados: Ninguno</span>
+              <button type="submit" id="btn-submit-reserva" class="btn-action" data-control="submit-reserva" data-hydrated="false">Confirmar Reserva</button>
+            </div>
+          </form>
+
+          <aside id="reservation-receipt" class="receipt-card" aria-live="polite">
+            <h3 class="card-title">Estado de Solicitud</h3>
+            <p id="receipt-status" class="card-copy">Completa los campos para validar y registrar tu turno en el cibercafe.</p>
+            <div id="receipt-items" class="receipt-items-list"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- Barra inferior de navegacion PWA (100% Flexbox, sin scroll) -->
+    <footer class="bottom-nav" aria-label="Barra inferior" data-event-zone="bottom-nav">
+      <button type="button" class="nav-tab is-active" data-nav-target="inicio" data-hydrated="false">Inicio</button>
+      <button type="button" class="nav-tab" data-nav-target="estaciones" data-hydrated="false">Estaciones</button>
+      <button type="button" class="nav-tab" data-nav-target="media" data-hydrated="false">Juegos y Musica</button>
+      <button type="button" class="nav-tab" data-nav-target="reservas" data-hydrated="false">Reservas</button>
+    </footer>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
